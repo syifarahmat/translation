@@ -35,7 +35,7 @@ class Manager
         $this->app = $app;
         $this->files = $files;
         $this->events = $events;
-        $this->config = $app['config']['translation-manager'];
+        $this->config = $app['config']['translation'];
         $this->ignoreFilePath = storage_path('.ignore_locales');
         $this->locales = [];
         $this->ignoreLocales = $this->getIgnoredLocales();

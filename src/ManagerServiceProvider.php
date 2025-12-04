@@ -19,39 +19,39 @@ class ManagerServiceProvider extends ServiceProvider {
 	public function register()
 	{
         // Register the config publish path
-        $configPath = __DIR__ . '/../config/translation-manager.php';
-        $this->mergeConfigFrom($configPath, 'translation-manager');
-        $this->publishes([$configPath => config_path('translation-manager.php')], 'config');
+        $configPath = __DIR__ . '/../config/translation.php';
+        $this->mergeConfigFrom($configPath, 'translation');
+        $this->publishes([$configPath => config_path('translation.php')], 'config');
 
-        $this->app->singleton('translation-manager', function ($app) {
+        $this->app->singleton('translation', function ($app) {
             $manager = $app->make('Barryvdh\TranslationManager\Manager');
             return $manager;
         });
 
-        $this->app->singleton('command.translation-manager.reset', function ($app) {
-            return new Console\ResetCommand($app['translation-manager']);
+        $this->app->singleton('command.translation.reset', function ($app) {
+            return new Console\ResetCommand($app['translation']);
         });
-        $this->commands('command.translation-manager.reset');
+        $this->commands('command.translation.reset');
 
-        $this->app->singleton('command.translation-manager.import', function ($app) {
-            return new Console\ImportCommand($app['translation-manager']);
+        $this->app->singleton('command.translation.import', function ($app) {
+            return new Console\ImportCommand($app['translation']);
         });
-        $this->commands('command.translation-manager.import');
+        $this->commands('command.translation.import');
 
-        $this->app->singleton('command.translation-manager.find', function ($app) {
-            return new Console\FindCommand($app['translation-manager']);
+        $this->app->singleton('command.translation.find', function ($app) {
+            return new Console\FindCommand($app['translation']);
         });
-        $this->commands('command.translation-manager.find');
+        $this->commands('command.translation.find');
 
-        $this->app->singleton('command.translation-manager.export', function ($app) {
-            return new Console\ExportCommand($app['translation-manager']);
+        $this->app->singleton('command.translation.export', function ($app) {
+            return new Console\ExportCommand($app['translation']);
         });
-        $this->commands('command.translation-manager.export');
+        $this->commands('command.translation.export');
 
-        $this->app->singleton('command.translation-manager.clean', function ($app) {
-            return new Console\CleanCommand($app['translation-manager']);
+        $this->app->singleton('command.translation.clean', function ($app) {
+            return new Console\CleanCommand($app['translation']);
         });
-        $this->commands('command.translation-manager.clean');
+        $this->commands('command.translation.clean');
 	}
 
     /**
@@ -62,9 +62,9 @@ class ManagerServiceProvider extends ServiceProvider {
 	public function boot()
 	{
         $viewPath = __DIR__.'/../resources/views';
-        $this->loadViewsFrom($viewPath, 'translation-manager');
+        $this->loadViewsFrom($viewPath, 'translation');
         $this->publishes([
-            $viewPath => base_path('resources/views/vendor/translation-manager'),
+            $viewPath => base_path('resources/views/vendor/translation'),
         ], 'views');
 
         $migrationPath = __DIR__.'/../database/migrations';
@@ -82,12 +82,12 @@ class ManagerServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array('translation-manager',
-            'command.translation-manager.reset',
-            'command.translation-manager.import',
-            'command.translation-manager.find',
-            'command.translation-manager.export',
-            'command.translation-manager.clean'
+		return array('translation',
+            'command.translation.reset',
+            'command.translation.import',
+            'command.translation.find',
+            'command.translation.export',
+            'command.translation.clean'
         );
 	}
 
